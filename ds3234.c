@@ -20,7 +20,7 @@ void DS3234_Init(void){
 
 }
 
-void DS3234_Read(ds1307 *p){
+void DS3234_Read(ds3234_data *p){
     DS3234_ChepSelect = 0;
     /* Para leer solo necesitamos mandar el mapa de direcciones
         como indica el datasheet */
@@ -35,7 +35,7 @@ void DS3234_Read(ds1307 *p){
     DS3234_ChepSelect = 1;
 }//End Read
 
-void DS3234_Write(ds1307 *p){
+void DS3234_Write(ds3234_data *p){
     DS3234_ChepSelect = 0;
     /* Para Escribir agregamos 0x80 al mapa de direcciones del datasheet */
     SPI1_Exchange_Byte(Write | Seconds);
@@ -54,3 +54,11 @@ void DS3234_Write(ds1307 *p){
     SPI1_Exchange_Byte(p->year);
     DS3234_ChepSelect = 1;
 }// End Write
+
+DS3234_control_status_register DS3234_Status(void){
+    DS3234_control_status_register status;
+    *((unsigned char *) & status) = 0;
+    DS3234_ChepSelect = 0;
+    status = SPI1_Exchange_Byte(ControlStatus);
+    DS3234_ChepSelect = 1;
+}

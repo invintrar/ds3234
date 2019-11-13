@@ -14,7 +14,7 @@ typedef struct{
     unsigned char year;
     unsigned char init_ok:1;
     unsigned char check_clock:1;
-}ds3234;
+}ds3234_data;
 
 /*Variables con campos de bits estructurado*/
 typedef struct _DS3234_control_register {
